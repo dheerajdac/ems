@@ -8,17 +8,17 @@ public class Department {
 	String nameOfDepartment;
 	List<Role> role = new ArrayList<Role>();
 	List<Project> projects = new ArrayList<Project>();
-
+	String desc;
 
 	public int getId() {
 		return id;
 	}
 
-	public Department(int id, String nameOfDepartment) {
+	public Department(int id, String nameOfDepartment,String desc) {
 		super();
 		this.id=id;
-
 		this.nameOfDepartment = nameOfDepartment;
+		this.desc =desc;
 	}
 
 	public String getNameOfDepartment() {

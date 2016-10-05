@@ -1,17 +1,26 @@
 package com.flp.ems.dao;
-import com.flp.ems.domain.Department;
-import com.flp.ems.domain.Employee;
-import com.flp.ems.domain.Key;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import com.flp.ems.domain.Department;
+import com.flp.ems.domain.Employee;
+import com.flp.ems.domain.Key;
+import com.flp.ems.domain.Project;
+import com.flp.ems.domain.Role;
 
 /**
  * Created by dheeraj on 10/2/2016.
@@ -61,7 +70,6 @@ public class EmployeeDaoImplForJdbc implements IemployeeDao{
                 return true;
             }
          catch (SQLException e) {
-            
         }
         return false;
     }
@@ -75,13 +83,11 @@ public class EmployeeDaoImplForJdbc implements IemployeeDao{
             ResultSet result;
             result = selectStatement.executeQuery(selectQuery);
             while (result.next()) {
-                Department d1 = new Department(1, "department1");
-                d1.addProject(1, "d1p1");
-                d1.addProject(2, "d1p2");
-                d1.addRoles(1, "d1r1");
-                d1.addRoles(2, "d1r2");
+                Department department = searchDepartment(result.getInt(8));
+                Project project = SearchProject(result.getInt(9));
+                Role role = SearchRole(result.getInt(10));
                 Key key = new Key(Integer.parseInt(result.getString(1)),"dhee-");
-                Employee e1 = new Employee(key, result.getString(2), result.getString(3), result.getString(4), result.getString(7), result.getDate(5), result.getDate(6), d1, d1.getProject(0), d1.getRole(0));
+                Employee e1 = new Employee(key, result.getString(2), result.getString(3), result.getString(4), result.getString(7), result.getDate(5), result.getDate(6), department, project,role);
                 employeeList.add(e1);
             }
         } catch (SQLException e) {
@@ -100,14 +106,12 @@ public class EmployeeDaoImplForJdbc implements IemployeeDao{
                 ResultSet result;
                 result = preparedStatement.executeQuery();
                 while (result.next()) {
-                    Department d1 = new Department(1, "department1");
-                    d1.addProject(1, "d1p1");
-                    d1.addProject(2, "d1p2");
-                    d1.addRoles(1, "d1r1");
-                    d1.addRoles(2, "d1r2");
+                    Department department = searchDepartment(result.getInt(8));
+                    Project project = SearchProject(result.getInt(9));
+                    Role role = SearchRole(result.getInt(10));
                     Key key =  new Key(Integer.parseInt(result.getString(1)),"dhee-");
                     
-                    e1 = new Employee(key, result.getString(2), result.getString(3), result.getString(4), result.getString(7), result.getDate(5), result.getDate(6), d1, d1.getProject(0), d1.getRole(0));
+                    e1 = new Employee(key, result.getString(2), result.getString(3), result.getString(4), result.getString(7), result.getDate(5), result.getDate(6), department, project,role);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -152,6 +156,61 @@ public class EmployeeDaoImplForJdbc implements IemployeeDao{
         }
         return false;
     }
+    
+    
+    public Department searchDepartment(int id) {
+            Department department=null;
+            String selectQuery = prop.getProperty("jdbc.query.searchDepartment");
+            try(PreparedStatement preparedStatement = dbconnection.prepareStatement(selectQuery)){
+                preparedStatement.setString(1,String.valueOf(id));
+                ResultSet result;
+                result = preparedStatement.executeQuery();
+                while (result.next()) {
+                    department = new Department(result.getInt(1), result.getString(2),result.getString(3));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        return department;
+    }
+    
+    
+    
+    public Project SearchProject(int id) {
+            Project project=null;
+            String selectQuery = prop.getProperty("jdbc.query.searchProject");
+            try(PreparedStatement preparedStatement = dbconnection.prepareStatement(selectQuery)){
+                preparedStatement.setString(1,String.valueOf(id));
+                ResultSet result;
+                result = preparedStatement.executeQuery();
+                while (result.next()) {
+                	project= new Project(result.getInt(1),result.getString(2),result.getString(3),result.getInt(4));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        return project;
+    }
+    
+    
+    
+    public Role SearchRole(int id) {
+    	 Role role=null;
+         String selectQuery = prop.getProperty("jdbc.query.searchRole");
+         try(PreparedStatement preparedStatement = dbconnection.prepareStatement(selectQuery)){
+             preparedStatement.setString(1,String.valueOf(id));
+             ResultSet result;
+             result = preparedStatement.executeQuery();
+             while (result.next()) {
+                 role = new Role(result.getInt(1), result.getString(2),result.getString(3));
+             }
+         } catch (SQLException e) {
+             e.printStackTrace();
+         }
+     return role;
+    }
+    
+    
 
     private java.util.Date formatDate(String startDateString ){
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");

@@ -18,7 +18,7 @@ public class EmployeeTest {
 	@Test
 	public void testEmployeeConstruction() {
 		Key key = new Key("dhe-007");
-		Department d1 =new Department(1,"department1");
+		Department d1 =new Department(1,"department1","");
 		d1.addProject(1,"d1p1");
 		d1.addProject(2,"d1p2");
 		d1.addRoles(1,"d1r1");
@@ -59,7 +59,7 @@ public class EmployeeTest {
 		EmployeeDaoImplForJdbc employeeDaoImplForJdbc =null;
 		employeeDaoImplForJdbc = new EmployeeDaoImplForJdbc();
 		Key key = new Key("dhe-007");
-		Department d1 =new Department(1,"department1");
+		Department d1 =new Department(1,"department1","");
 		d1.addProject(1,"d1p1");
 		d1.addProject(2,"d1p2");
 		d1.addRoles(1,"d1r1");
@@ -86,7 +86,7 @@ public class EmployeeTest {
         EmployeeDaoImplForJdbc employeeDaoImplForJdbc =null;
         employeeDaoImplForJdbc = new EmployeeDaoImplForJdbc();
         Key key = new Key("dhe-4");
-        Department d1 =new Department(1,"department1");
+        Department d1 =new Department(1,"department1","");
         d1.addProject(1,"d1p1");
         d1.addProject(2,"d1p2");
         d1.addRoles(1,"d1r1");
@@ -104,7 +104,7 @@ public class EmployeeTest {
         EmployeeDaoImplForJdbc employeeDaoImplForJdbc =null;
         employeeDaoImplForJdbc = new EmployeeDaoImplForJdbc();
         Key key = new Key("dhe-3");
-        Department d1 =new Department(1,"department1");
+        Department d1 =new Department(1,"department1","");
         d1.addProject(1,"d1p1");
         d1.addProject(2,"d1p2");
         d1.addRoles(1,"d1r1");

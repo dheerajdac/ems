@@ -66,7 +66,7 @@ public class UserInteraction {
 		}
 		
 		
-		Department d1 =new Department(1,"department1");
+		Department d1 =new Department(1,"department1","");
 		d1.addProject(1,"d1p1");
 		d1.addProject(2,"d1p2");
 		d1.addRoles(1,"d1r1");
@@ -124,7 +124,7 @@ public class UserInteraction {
 		}
 		else{
 			while(flag){
-				Department d1 =new Department(1,"department1");
+				Department d1 =new Department(1,"department1","");
 				d1.addProject(1,"d1p1");
 				d1.addProject(2,"d1p2");
 				d1.addRoles(1,"d1r1");
